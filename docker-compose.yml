@@ -1,0 +1,14 @@
+# frontend/docker-compose.yml
+version: '3'
+services:
+  client:
+    container_name: frontend
+    build: ./client/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes: 
+      - ./client/src:/usr/src/app/src
+    networks:
+      ecommerce:
+        aliases:
+          - fe 
