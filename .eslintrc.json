@@ -1,0 +1,9 @@
+{
+  "extends": "next/core-web-vitals",
+  "trailingComma": "es5",
+  "semi": true,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"]
+}
