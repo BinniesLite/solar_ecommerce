@@ -8,19 +8,26 @@ export default async function SetupLayout({children}: {children: React.ReactNode
     if (!userId) { 
         redirect("/sign-in");
     }
+    try {
+        const store = await prismaDB.store.findFirst({
+            where: {
+                userId: userId
+            }
+        });
 
-    const store = await prismaDB.store.findFirst({
-        where: {
-            userId: userId
+        console.log("[ROOT]",userId, store);
+        if (store) {
+            redirect(`/${store.id}`);
         }
-    });
+    }
+    catch { 
+        console.log("[ROOT]", "something is wrong")
+    }
+    
     
     // Let the thought flow to where it comes from nowhere
      
-    console.log("[ROOT]",userId, store);
-    if (store) {
-        redirect(`/${store.id}`);
-    }
+    
 
     return <>
     {children}
