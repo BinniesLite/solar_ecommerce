@@ -21,6 +21,7 @@ export default async function DashboardLayout({
             userId
         }
     })
+    
     console.log("[Dasboard]/[store_Id]", "Store", store);
     if (!store) {
         redirect("/");
