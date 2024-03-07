@@ -1,6 +1,7 @@
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import prismaDB from '@/lib/prisma';
+import Navbar from '@/components/navbar';
 
 export default async function DashboardLayout({
     children,
@@ -10,7 +11,7 @@ export default async function DashboardLayout({
     params: {storeId: string}
 }) {
     const { userId } = auth();
-    console.log("[Dasboard]/[store_Id]","User",userId);
+    // console.log("[Dasboard]/[store_Id]","User",userId);
     if (!userId) {
         redirect("/sign-in");
     };
@@ -22,13 +23,14 @@ export default async function DashboardLayout({
         }
     })
     
-    console.log("[Dasboard]/[store_Id]", "Store", store);
+    // console.log("[Dasboard]/[store_Id]", "Store", store);
     if (!store) {
         redirect("/");
     }
 
     return <>
-        # TODO: Add a Navbar
+        <Navbar/>
+        
         This will be a navbar
         {children}
         </>
