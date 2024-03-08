@@ -30,8 +30,6 @@ export default async function DashboardLayout({
 
     return <>
         <Navbar/>
-        
-        This will be a navbar
         {children}
         </>
 }
