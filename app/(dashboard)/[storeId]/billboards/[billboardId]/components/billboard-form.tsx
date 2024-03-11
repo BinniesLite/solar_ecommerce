@@ -1,17 +1,18 @@
 "use client"
 
 import { useState } from "react";
-
+// fetch 
 import axios from "axios";
 import { Billboard } from "@prisma/client"
+// toast
 import toast from "react-hot-toast";
-
+// Form validation
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form"
-
+// Icon
 import { Trash } from "lucide-react";
-
+// Components
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -26,11 +27,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 
+import { ImageUpload } from "@/components/ui/image-upload";
+
 interface BillboardFormProps {
-    store: Billboard | null;
+    initialData: Billboard | null;
 }
 
 const formSchema = z.object({
@@ -48,7 +50,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
     const params = useParams()
     const router = useRouter();
     const origin = useOrigin();
-    // // Use form validation
+    // Use form validation
     const form = useForm<BillboardFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData || {
@@ -65,7 +67,15 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
     const onSubmit = async (data: BillboardFormValues) => {
         try {
             setLoading(true);
-            await axios.patch(`/api/store/${params.storeId}`, data)
+            if (!initialData) {
+                await axios.post(`/api/${params.storeId}/billboards`, data)
+            
+            }  
+            else {
+                await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data)
+
+            }
+            
             router.refresh(); // Due to the fact that it has server + client components
             toast.success("Store updated 😊");
         }
@@ -128,15 +138,33 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8 w-full"
                 >
+                    <FormField 
+                            control={form.control}
+                            name="imageUrl"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Background Image</FormLabel>
+                                    <FormControl>
+                                        <ImageUpload 
+                                            values={field.value ? [field.value] : []}
+                                            disabled={loading}
+                                            onChange={(url) => field.onChange(url)}
+                                            onRemove={() => field.onChange("")}
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
                     <div className="grid grid-cols-3 gap-8">
                         <FormField 
                             control={form.control}
                             name="label"
                             render={({field}) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>Label</FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder="Store Name" {...field}/>
+                                        <Input disabled={loading} placeholder="Billboard Label..." {...field}/>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>

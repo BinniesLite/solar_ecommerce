@@ -9,6 +9,7 @@ export default async function SetupLayout({children}: {children: React.ReactNode
         redirect("/sign-in");
     }
     try {
+        
         const store = await prismaDB.store.findFirst({
             where: {
                 userId: userId
