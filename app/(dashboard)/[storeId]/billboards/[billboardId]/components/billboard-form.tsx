@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import axios from "axios";
-import { Store } from "@prisma/client"
+import { Billboard } from "@prisma/client"
 import toast from "react-hot-toast";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,19 +29,19 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 
-interface SettingsFormProps {
-    store: Store;
+interface BillboardFormProps {
+    store: Billboard | null;
 }
 
 const formSchema = z.object({
-    name: z.string().min(1)
+    label: z.string().min(1),
+    imageUrl: z.string().min(1)
 })
 
+type BillboardFormValues = z.infer<typeof formSchema> 
 
-type SettingsFormValues = z.infer<typeof formSchema> 
 
-
-export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
+export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -49,12 +49,20 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
     const router = useRouter();
     const origin = useOrigin();
     // // Use form validation
-    const form = useForm<SettingsFormValues>({
+    const form = useForm<BillboardFormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: store
+        defaultValues: initialData || {
+            label: "",
+            imageUrl: ""
+        }
     });
 
-    const onSubmit = async (data: SettingsFormValues) => {
+    const title = initialData ? "Edit Billboard" : "Create Billboard";
+    const description = initialData ? "Edit a billboard" : "Add a new billboard";
+    const toastMessage = initialData ? "Billboard Updated" : "Billboard Created";
+    const action = initialData ? "Save Changes" : "Created Billboard";
+
+    const onSubmit = async (data: BillboardFormValues) => {
         try {
             setLoading(true);
             await axios.patch(`/api/store/${params.storeId}`, data)
@@ -101,10 +109,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
             {/* Main */}
             <div className="flex items-center justify-between">
                 <Heading
-                    title="Settings"
-                    description="Manage Store Settings"
+                    title={title}
+                    description={description}
                 />
-                <Button
+                {initialData && <Button
                     variant="destructive"
                     size="sm"
                     disabled={loading}
@@ -112,7 +120,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
                 >
                     <Trash className="h-4 w-4" />
 
-                </Button>
+                </Button>   }
             </div>
             <Separator/>
             <Form {...form}>
@@ -123,7 +131,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
                     <div className="grid grid-cols-3 gap-8">
                         <FormField 
                             control={form.control}
-                            name="name"
+                            name="label"
                             render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
@@ -137,16 +145,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ store }) => {
                     </div>
 
                     <Button disabled={loading} className="ml-auto" type="submit">
-                        Save Changes
+                        {action}
                     </Button>
                 </form>
             </Form>
             <Separator/>
-            <ApiAlert 
-                title="test" 
-                description={`${origin}/api/${params.storeId}`}
-                variant="public"
-            />
+          
         </>
     )
 }

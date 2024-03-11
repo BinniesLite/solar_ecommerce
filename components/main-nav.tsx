@@ -5,7 +5,7 @@ import Link  from "next/link";
 import { useParams, usePathname } from "next/navigation";
 
 export function MainNav({ 
-    classNames,
+    className,
     ...props
 }: React.HtmlHTMLAttributes<HTMLElement>) {
     
@@ -13,6 +13,16 @@ export function MainNav({
     const params = useParams();
 
     const routes = [
+        {
+            href: `/${params?.storeId}`, // add a questions mark to safe guard lol
+            label: 'Overview',
+            active: pathName === `/${params.storeId}`
+        },
+        {
+            href: `/${params?.storeId}/billboards`, // add a questions mark to safe guard lol
+            label: 'Billboards',
+            active: pathName === `/${params.storeId}/billboards`
+        },
         {
             href: `/${params?.storeId}/settings`, // add a questions mark to safe guard lol
             label: 'Settings',
@@ -24,7 +34,7 @@ export function MainNav({
     return ( 
         // Merge the className we have to the default ones
         <nav 
-            className={cn("flex items-center space-x-4 lg:space-x-6", classNames)}
+            className={cn("flex items-center space-x-4 lg:space-x-6", className)}
         >
             {routes.map((route) => (
                 <Link 
