@@ -1,0 +1,7 @@
+{
+  "name": "solar_ecommerce_api",
+  "version": "0.0.1",
+  "description": "api for ecommerce ",
+  "main": "index.js",
+  "license": "MIT"
+}

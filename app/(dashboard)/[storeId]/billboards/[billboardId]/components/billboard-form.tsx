@@ -27,7 +27,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { useOrigin } from "@/hooks/use-origin";
 
 import { ImageUpload } from "@/components/ui/image-upload";
 
@@ -49,7 +48,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
 
     const params = useParams()
     const router = useRouter();
-    const origin = useOrigin();
     // Use form validation
     const form = useForm<BillboardFormValues>({
         resolver: zodResolver(formSchema),
@@ -77,7 +75,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
             }
             
             router.refresh(); // Due to the fact that it has server + client components
-            toast.success("Store updated 😊");
+            toast.success(`${toastMessage} 😊`);
         }
         catch (error) {
             toast.error("Something went wrong 😵‍💫")
@@ -92,10 +90,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => 
     const onDelete = async () => {
         try {
             setLoading(true);
-            await axios.delete(`/api/store/${params.storeId}`)
+            await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
             router.refresh();
             router.push("/");
-            toast.success("Stored deleted.")
+            toast.success("Billboard deleted.")
         } catch (error) {
             console.log(error);
             toast.error("Make sure you remove all products and categories first.");

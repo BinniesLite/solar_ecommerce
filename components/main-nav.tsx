@@ -29,7 +29,7 @@ export function MainNav({
             active: pathName === `/${params.storeId}/settings`
         }
     ];  
-    console.log(routes[0].label)
+
 
     return ( 
         // Merge the className we have to the default ones

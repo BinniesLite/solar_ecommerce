@@ -11,7 +11,7 @@ const Navbar = async () => {
     if (!userId) {
         redirect("/sign-in");
     }
-
+    
     const stores = await prismaDB.store.findMany({
         where: {
             userId
