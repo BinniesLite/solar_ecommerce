@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "module": "CommonJS",
+      "target": "ES2018", // Or a version appropriate for your Node.js environment
+      "esModuleInterop": true,
+      "outDir": "./dist" // Specify output directory for compiled JavaScript files
+    },
+    "include": ["src/**/*"], // Adjust this to your source files' directory
+    "exclude": ["node_modules", "dist"]
+  }
+  
