@@ -19,7 +19,7 @@ const BillboardPage = async ({ params }: {params: { storeId: string}}) => {
     }
   })
 
-  const formatteBillboard: BillboardColumn[] = billboards.map((item) => ({
+  const formattedBillboard: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
     label: item.label,
     createdAt: format(item.createdAt, "MMMM do, yyyy")
@@ -28,7 +28,7 @@ const BillboardPage = async ({ params }: {params: { storeId: string}}) => {
   return (
     <div className="flex-col">
         <div className="flex-1 space-y-4 p-8 pt-6">
-            <BillboardClient data={formatteBillboard}/>
+            <BillboardClient data={formattedBillboard}/>
 
         </div>
     </div>

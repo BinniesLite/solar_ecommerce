@@ -11,6 +11,7 @@ import { DataTable } from "@/components/ui/data-table";
 
 import { BillboardColumn, columns } from "./columns";
 
+import { ApiAlert } from "@/components/ui/api-alert";
 
 interface BillboardClientProps {
     data: BillboardColumn[] 
@@ -37,6 +38,8 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
             </div>
             <Separator />
             <DataTable data={data} columns={columns} searchKey="label" />
+            <Separator />
+            <ApiAlert title="GET" variant="public" description={`${origin}/api/${params.storeId}/adsad`} />
         </>
     )
 }
