@@ -24,6 +24,11 @@ export function MainNav({
             active: pathName === `/${params.storeId}/billboards`
         },
         {
+            href: `/${params?.storeId}/categories`, // add a questions mark to safe guard lol
+            label: 'Categories',
+            active: pathName === `/${params.storeId}/categories`
+        },
+        {
             href: `/${params?.storeId}/settings`, // add a questions mark to safe guard lol
             label: 'Settings',
             active: pathName === `/${params.storeId}/settings`

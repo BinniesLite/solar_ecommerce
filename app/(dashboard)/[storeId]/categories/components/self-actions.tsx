@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { MoreHorizontal, Edit, Copy, Trash } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { BillboardColumn } from "./columns"
+import { CategoryColumn } from "./columns"
 
 
 import {
@@ -27,7 +27,7 @@ import { useState } from "react"
 
 
 interface CellActionProps {
-    data: BillboardColumn
+    data: CategoryColumn
 }
 
 
