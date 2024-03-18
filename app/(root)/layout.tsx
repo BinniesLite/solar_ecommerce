@@ -17,13 +17,8 @@ export default async function SetupLayout({children}: {children: React.ReactNode
     if (store) {
         redirect(`/${store.id}`);
     }
-    
-    
-    
-    // Let the thought flow to where it comes from nowhere
-     
-    
 
+    // Let the thought flow to where it comes from nowhere
     return <>
     {children}
     </>
