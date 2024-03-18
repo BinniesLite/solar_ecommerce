@@ -5,7 +5,7 @@
       "esModuleInterop": true,
       "outDir": "./dist" // Specify output directory for compiled JavaScript files
     },
-    "include": ["src/**/*"], // Adjust this to your source files' directory
+    "include": ["src/**/*", "swagger-setup.ts"], // Adjust this to your source files' directory
     "exclude": ["node_modules", "dist"]
   }
   

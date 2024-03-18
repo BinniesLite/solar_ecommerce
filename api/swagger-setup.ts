@@ -8,7 +8,14 @@ const options = {
       version: '1.0.0',
     },
   },
-  apis: ['./src/routes/*.ts'], // path to your API files
+  servers: [
+    {
+      url: `http://localhost:4000/api`,
+    },
+  ],
+  apis: ['./src/*.ts'], // path to your API files
 };
 
-export const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options);
+
+export default swaggerSpec;
