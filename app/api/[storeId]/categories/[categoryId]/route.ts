@@ -4,30 +4,30 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { storeId: string, billboardId: string } }
+    { params }: { params: { storeId: string, categoryId: string } }
 ) {
     try {
         const { userId } = auth();
 
         const body = await req.json();
     
-        const { label, imageUrl } = body;
+        const { name, billboardId } = body;
     
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
         }
     
-        if (!label) {
-            return new NextResponse("Label is required", { status: 400 });
+        if (!name) {
+            return new NextResponse("Name is required", { status: 400 });
         }
     
         
-        if (!imageUrl) {
+        if (!billboardId) {
             return new NextResponse("Image Url is required", { status: 400 });
         }
     
-        if (!params.billboardId) {
-            return new NextResponse("Store Id is required", { status: 400 });
+        if (!params.categoryId) {
+            return new NextResponse("Category Id is required", { status: 400 });
         }
     
         const storeByUserId = prismaDB.store.findFirst({
@@ -41,17 +41,18 @@ export async function PATCH(
             return new NextResponse("Unauthorized Access", { status: 403 });
         }
     
-        const billboard = await prismaDB.billboard.updateMany({
+        const category = await prismaDB.category.updateMany({
             where: {
-                id: params.billboardId
+                id: params.categoryId
             },
             data: {
-                label,
-                imageUrl
+                name,
+                billboardId,
+                storeId: params.storeId
             }
         })
     
-        return NextResponse.json(billboard);
+        return NextResponse.json(category);
     } catch (error) {
         console.log("[BILLBOARD_PATCH]", error)
         return new NextResponse("Internal error", { status: 500 })
@@ -62,7 +63,7 @@ export async function PATCH(
 // Need to have request and params
 export async function DELETE(
     req: Request,
-    { params }: { params: { storeId: string, billboardId: string } }
+    { params }: { params: { storeId: string, categoryId: string } }
 ) {
     try {
         const { userId } = auth();
@@ -71,10 +72,10 @@ export async function DELETE(
             return new NextResponse("Unauthenticated", { status: 403 });
         }
 
-        if (!params.billboardId) {
-            return new NextResponse("Store Id is required", { status: 400 });
+        if (!params.categoryId) {
+            return new NextResponse("Category Id is required", { status: 400 });
         }
-        
+
         const storeByUserId = prismaDB.store.findFirst({
             where: {
                 id: params.storeId,
@@ -86,13 +87,13 @@ export async function DELETE(
             return new NextResponse("Unauthorized Access", { status: 403 });
         }
 
-        const billboard = await prismaDB.billboard.deleteMany({
+        const category = await prismaDB.category.deleteMany({
             where: {
-                id: params.billboardId
+                id: params.categoryId
             },
         });
 
-        return NextResponse.json(billboard);
+        return NextResponse.json(category, { status: 200 });
     } catch (error) {
         console.log("[STORE_STOREID]", error)
         return new NextResponse("Something is wrong", { status: 500 });

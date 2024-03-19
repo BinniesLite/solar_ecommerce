@@ -22,7 +22,6 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     // So this is how it made a custom props
     {
         id: "actions", 
-        cell: ({ row }) => <CellAction data={row.original}/>,
-        header: "Actions"
+        cell: ({ row }) => <CellAction data={row.original}/>
     }
 ]
