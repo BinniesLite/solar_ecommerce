@@ -9,16 +9,16 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
-import { BillboardColumn, columns } from "./columns";
+import { ProductColumn, columns } from "./columns";
 
 import { ApiAlert } from "@/components/ui/api-alert";
 import { ApiList } from "@/components/ui/api-list";
 
 interface BillboardClientProps {
-    data: BillboardColumn[] 
+    data: ProductColumn[] 
 }
 
-export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
+export const ProductClient: React.FC<BillboardClientProps> = ({ data }) => {
 
     const router = useRouter();
     const params = useParams();
@@ -29,10 +29,10 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Billboard (${data?.length})`}
-                    description="Manage billboards for your store"
+                    title={`Product (${data?.length})`}
+                    description="Manage products for your store"
                 />
-            <Button onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
+            <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
             </Button>

@@ -7,7 +7,7 @@ import axios from "axios";
 import { MoreHorizontal, Copy, Edit, Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button"
-import { BillboardColumn } from "./columns"
+import { ProductColumn } from "./columns"
 import { AlertModal } from "@/components/modals/alert-modal";
 
 import {
@@ -23,7 +23,7 @@ import { useParams, useRouter } from "next/navigation";
 
 
 interface CellActionProps {
-    data: BillboardColumn
+    data: ProductColumn
 }
 
 
@@ -42,14 +42,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     const onDelete = async () => {
         try {
             setLoading(true);
-            const response = await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
+            const response = await axios.delete(`/api/${params.storeId}/products/${data.id}`)
             console.log("[RESPONSE]", response)
             router.refresh();
             
-            toast.success("Billboard deleted.")
+            toast.success("Product deleted.")
         } catch (error) {
             console.log(error);
-            toast.error("Make sure you remove all products and categories first.");
+            toast.error("Something went wrong.");
             
         } finally {
             setLoading(false);
@@ -58,7 +58,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     }
 
     const onEdit = () => { 
-        router.push(`/${params.storeId}/billboards/${data.id}`)
+        router.push(`/${params.storeId}/products/${data.id}`)
     }
 
 
@@ -81,7 +81,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onCopy()} className="cursor-pointer" >
-                <Copy className="h-4 w-4 mr-2" /> Copy Billboard Id
+                <Copy className="h-4 w-4 mr-2" /> Copy Product Id
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onEdit()} className="cursor-pointer">
                 <Edit className="h-4 w-4 mr-2" /> Edit

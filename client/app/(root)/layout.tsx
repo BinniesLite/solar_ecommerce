@@ -16,14 +16,8 @@ import axios from 'axios';
 export default async function SetupLayout({children}: {children: React.ReactNode}) {
     const { userId } = auth();
     const user = await currentUser();
-    const currentUserEmail = user?.emailAddresses
 
-    if (!currentUserEmail || !allowUsersEmail.includes(currentUserEmail)) {
-        // Redirect if user is not authenticated or not allowed
-        return <>
-            You shall not passed
-        </>
-    }
+ 
 
     if (!userId) { 
         redirect("/sign-in");
